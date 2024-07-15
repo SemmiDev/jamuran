@@ -38,9 +38,9 @@ class ShippingCostsController extends Controller
 
     public function edit($id)
     {
-        $category = Category::find($id);
+        $shipping_cost = ShippingCosts::find($id);
         return view('admin.shipping_costs.edit', [
-            'category' => $category,
+            'shipping_cost' => $shipping_cost,
         ]);
     }
 
@@ -48,42 +48,44 @@ class ShippingCostsController extends Controller
     {
         // Validate the request
         $request->validate([
-            'name' => 'required|string|max:255',
+            'kota' => 'required|string|max:255',
+            'shipping_cost' => 'required|numeric',
         ]);
 
-        // Find the category by ID
-        $category = Category::find($id);
+        // Find the shipping cost by ID
+        $shipping_cost = ShippingCosts::find($id);
 
-        // Check if the category exists
-        if ($category) {
-            // Update the category with the provided name
-            $category->update([
-                'name' => $request->input('name'),
+        // Check if the shipping cost exists
+        if ($shipping_cost) {
+            // Update the shipping cost with the provided data
+            $shipping_cost->update([
+                'kota' => $request->input('kota'),
+                'shipping_cost' => $request->input('shipping_cost')
             ]);
 
             // Redirect back with a success message
-            return redirect()->route('admin.shipping_costs')->with('success', 'Kategori berhasil diperbarui.');
+            return redirect()->route('admin.shipping_costs')->with('success', 'Biaya Pengiriman berhasil diperbarui.');
         } else {
             // Redirect back with an error message
-            return redirect()->route('admin.shipping_costs')->with('error', 'Kategori tidak ditemukan.');
+            return redirect()->route('admin.shipping_costs')->with('error', 'Biaya Pengiriman tidak ditemukan.');
         }
     }
 
     public function destroy($id)
     {
-        // Find the category by ID
-        $category = Category::find($id);
+        // Find the shipping cost by ID
+        $shipping_cost = ShippingCosts::find($id);
 
-        // Check if the category exists
-        if ($category) {
-            // Delete the category
-            $category->delete();
+        // Check if the shipping cost exists
+        if ($shipping_cost) {
+            // Delete the shipping cost
+            $shipping_cost->delete();
 
             // Redirect back with a success message
-            return redirect()->back()->with('success', 'Kategori berhasil dihapus.');
+            return redirect()->route('admin.shipping_costs')->with('success', 'Biaya Pengiriman berhasil dihapus.');
         } else {
             // Redirect back with an error message
-            return redirect()->back()->with('error', 'Kategori tidak ditemukan.');
+            return redirect()->route('admin.shipping_costs')->with('error', 'Biaya Pengiriman tidak ditemukan.');
         }
     }
 }

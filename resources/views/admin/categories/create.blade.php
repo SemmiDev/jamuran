@@ -18,8 +18,9 @@
 
                             <div class="mt-2">
                                 <button type="submit" class="btn btn-primary me-2">Simpan</button>
-                                <a href="{{ route('admin.categories') }}" class="btn btn-outline-secondary">Cancel</a>
+                                <a href="{{ route('admin.categories') }}" class="btn btn-outline-secondary">Batal</a>
                             </div>
+                        </div>
                     </form>
                 </div>
                 <!-- /Account -->
