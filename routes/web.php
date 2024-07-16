@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BankAccountsController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProfileController;
@@ -44,6 +45,14 @@ Route::middleware('auth')->group(function () {
   Route::get('/admin/shipping_costs/{id}/edit', [ShippingCostsController::class, 'edit'])->name('admin.shipping_costs.edit');
   Route::put('/admin/shipping_costs/{id}/update', [ShippingCostsController::class, 'update'])->name('admin.shipping_costs.update');
   Route::delete('/admin/shipping_costs/{id}/destroy', [ShippingCostsController::class, 'destroy'])->name('admin.shipping_costs.destroy');
+
+  Route::get('/admin/bank_accounts', [BankAccountsController::class, 'index'])->name('admin.bank_accounts');
+  Route::get('/admin/bank_accounts/create', [BankAccountsController::class, 'create'])->name('admin.bank_accounts.create');
+  Route::post('/admin/bank_accounts/store', [BankAccountsController::class, 'store'])->name('admin.bank_accounts.store');
+  Route::get('/admin/bank_accounts/{id}/edit', [BankAccountsController::class, 'edit'])->name('admin.bank_accounts.edit');
+  Route::put('/admin/bank_accounts/{id}/update', [BankAccountsController::class, 'update'])->name('admin.bank_accounts.update');
+  Route::delete('/admin/bank_accounts/{id}/destroy', [BankAccountsController::class, 'destroy'])->name('admin.bank_accounts.destroy');
+
 
   Route::get('/admin/products', [ProductsController::class, 'index'])->name('admin.products');
   Route::get('/admin/products/create', [ProductsController::class, 'create'])->name('admin.products.create');

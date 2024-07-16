@@ -45,6 +45,12 @@
                                     placeholder="Masukkan username" autofocus>
                             </div>
                             <div class="mb-3">
+                                <label for="name" class="form-label">Alamat
+                                    <span style="color: red;">*</span>
+                                </label>
+                                <textarea class="form-control" id="address" name="address" required placeholder="Masukkan alamat" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3">
                                 <label for="email" class="form-label">Email
                                     <span style="color: red;">*</span>
                                 </label>

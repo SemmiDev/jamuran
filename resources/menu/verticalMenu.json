@@ -93,6 +93,23 @@
       ]
     },
     {
+      "name": "Data Nomor Rekening",
+      "icon": "menu-icon tf-icons bx bx-lock-open-alt />",
+      "slug": "auth",
+      "submenu": [
+        {
+          "url": "/admin/bank_accounts",
+          "name": "Nomor Rekening",
+          "slug": "auth-login-basic"
+        },
+        {
+          "url": "/admin/bank_accounts/create",
+          "name": "Tambah Nomor Rekening",
+          "slug": "auth-register-basic"
+        }
+      ]
+    },
+    {
       "name": "Data Pelanggan",
       "icon": "menu-icon tf-icons bx bx-collection",
       "slug": "cards-basic",
