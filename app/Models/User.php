@@ -36,4 +36,9 @@ class User extends Authenticatable
 
 	const ROLE_ADMIN = 'Admin';
 	const ROLE_USER = 'User';
+
+	public function addresses()
+	{
+		return $this->hasMany(Address::class);
+	}
 }

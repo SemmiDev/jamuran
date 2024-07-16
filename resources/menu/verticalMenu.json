@@ -15,12 +15,12 @@
       "slug": "auth",
       "submenu": [
         {
-          "url": "auth/login-basic",
+          "url": "/admin/products",
           "name": "Produk",
           "slug": "auth-login-basic"
         },
         {
-          "url": "auth/register-basic",
+          "url": "/admin/products/create",
           "name": "Tambah Produk",
           "slug": "auth-register-basic"
         }

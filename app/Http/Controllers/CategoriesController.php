@@ -78,10 +78,10 @@ class CategoriesController extends Controller
             $category->delete();
 
             // Redirect back with a success message
-            return redirect()->back()->with('success', 'Kategori berhasil dihapus.');
+            return redirect()->route('admin.categories')->with('success', 'Kategori berhasil dihapus.');
         } else {
             // Redirect back with an error message
-            return redirect()->back()->with('error', 'Kategori tidak ditemukan.');
+            return redirect()->route('admin.categories')->with('success', 'Kategori tidak ditemukan.');
         }
     }
 }

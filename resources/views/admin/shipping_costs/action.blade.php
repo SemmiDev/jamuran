@@ -4,8 +4,8 @@
     <form action="{{ route('admin.shipping_costs.destroy', $row->id) }}" method="POST" style="display:inline;">
         @csrf
         @method('DELETE')
-        <button type="submit" class="btn btn-sm btn-danger btn-action">
-            Delete
+        <button type="submit" class="btn btn-sm btn-danger btn-action" data-confirm-delete="true">
+            Hapus
         </button>
     </form>
 </div>
