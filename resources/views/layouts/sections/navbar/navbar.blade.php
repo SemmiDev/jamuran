@@ -42,7 +42,7 @@
     <!-- /Search -->
     <ul class="navbar-nav flex-row align-items-center ms-auto">
 
-        <div>
+        <div class="d-none d-md-block">
             {{ ucwords(auth()->user()->username) }}
         </div>
 
@@ -80,16 +80,16 @@
                 <li>
                     <a class="dropdown-item" href="javascript:void(0);">
                         <i class="bx bx-user me-2"></i>
-                        <span class="align-middle">My Profile</span>
+                        <span class="align-middle">Informasi Profil</span>
                     </a>
                 </li>
                 <li>
                     <a class="dropdown-item" href="javascript:void(0);">
                         <i class='bx bx-cog me-2'></i>
-                        <span class="align-middle">Settings</span>
+                        <span class="align-middle">Pengaturan</span>
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a class="dropdown-item" href="javascript:void(0);">
                         <span class="d-flex align-items-center align-middle">
                             <i class="flex-shrink-0 bx bx-credit-card me-2 pe-1"></i>
@@ -98,7 +98,7 @@
                                 class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
                         </span>
                     </a>
-                </li>
+                </li> --}}
                 <li>
                     <div class="dropdown-divider"></div>
                 </li>
@@ -108,7 +108,7 @@
                         @csrf
                         <button type="submit" class="dropdown-item">
                             <i class='bx bx-power-off me-2'></i>
-                            <span class="align-middle">Log Out</span>
+                            <span class="align-middle">Keluar</span>
                         </button>
                     </form>
                 </li>

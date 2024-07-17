@@ -41,8 +41,8 @@ class Order extends Model
 		'buyer_id',
 		'total_qty',
 		'total_price',
-		'status',
-		'payment_proof'
+		'status', // 'belum_membayar', 'sudah_membayar', 'verifikasi', 'dikirim', 'selesai'
+		'payment_proof' // path file
 	];
 
 	public function user()

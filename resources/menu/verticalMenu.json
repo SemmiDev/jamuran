@@ -12,47 +12,47 @@
     {
       "name": "Data Produk",
       "icon": "menu-icon tf-icons bx bx-store",
-      "slug": "auth",
+      "slug": "admin.products",
       "submenu": [
         {
           "url": "/admin/products",
           "name": "Produk",
-          "slug": "auth-login-basic"
+          "slug": "admin.products"
         },
         {
           "url": "/admin/products/create",
           "name": "Tambah Produk",
-          "slug": "auth-register-basic"
+          "slug": "admin.products.create"
         }
       ]
     },
     {
       "name": "Data Pemesanan",
-      "icon": "menu-icon tf-icons bx bx-cube-alt",
-      "slug": "pages-misc",
+      "icon": "menu-icon tf-icons bx bx-cart-alt",
+      "slug": "admin.orders",
       "submenu": [
         {
-          "url": "pages/misc-error",
+          "url": "/admin/orders?status=belum_membayar",
           "name": "Belum Membayar",
           "slug": "pages-misc-error"
         },
         {
-          "url": "pages/misc-error",
+          "url": "/admin/orders?status=sudah_membayar",
           "name": "Sudah Membayar",
           "slug": "pages-misc-error"
         },
         {
-          "url": "pages/misc-error",
+          "url": "/admin/orders?status=verifikasi",
           "name": "Verifikasi",
           "slug": "pages-misc-error"
         },
         {
-          "url": "pages/misc-error",
+          "url": "/admin/orders?status=dikirim",
           "name": "Dikirim",
           "slug": "pages-misc-error"
         },
         {
-          "url": "pages/misc-error",
+          "url": "/admin/orders?status=selesai",
           "name": "Selesai",
           "slug": "pages-misc-error"
         }
@@ -60,60 +60,60 @@
     },
     {
       "name": "Data Kategori",
-      "icon": "menu-icon tf-icons bx bx-copy",
-      "slug": "auth",
+      "icon": "menu-icon tf-icons bx bx-category-alt",
+      "slug": "admin.categories",
       "submenu": [
         {
           "url": "/admin/categories",
           "name": "Kategori",
-          "slug": "auth-login-basic"
+          "slug": "admin.categories"
         },
         {
           "url": "admin/categories/create",
           "name": "Tambah Kategori",
-          "slug": "auth-register-basic"
+          "slug": "admin.categories.create"
         }
       ]
     },
     {
       "name": "Data Ongkos Kirim",
-      "icon": "menu-icon tf-icons bx bx-support />",
-      "slug": "auth",
+      "icon": "menu-icon tf-icons bx bx-package />",
+      "slug": "admin.shipping_costs",
       "submenu": [
         {
           "url": "/admin/shipping_costs",
           "name": "Ongkos Kirim",
-          "slug": "auth-login-basic"
+          "slug": "admin.shipping_costs"
         },
         {
           "url": "/admin/shipping_costs/create",
           "name": "Tambah Ongkos Kirim",
-          "slug": "auth-register-basic"
+          "slug": "admin.shipping_costs.create"
         }
       ]
     },
     {
       "name": "Data Nomor Rekening",
-      "icon": "menu-icon tf-icons bx bx-lock-open-alt />",
-      "slug": "auth",
+      "icon": "menu-icon tf-icons bx bx-wallet />",
+      "slug": "admin.bank_accounts",
       "submenu": [
         {
           "url": "/admin/bank_accounts",
           "name": "Nomor Rekening",
-          "slug": "auth-login-basic"
+          "slug": "admin.bank_accounts"
         },
         {
           "url": "/admin/bank_accounts/create",
           "name": "Tambah Nomor Rekening",
-          "slug": "auth-register-basic"
+          "slug": "admin.bank_accounts.create"
         }
       ]
     },
     {
       "name": "Data Pelanggan",
-      "icon": "menu-icon tf-icons bx bx-collection",
-      "slug": "cards-basic",
-      "url": "cards/basic"
+      "icon": "menu-icon tf-icons bx bx-group",
+      "slug": "admin.customers",
+      "url": "/admin/customers"
     },
     {
       "name": "Laporan",

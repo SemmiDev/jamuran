@@ -2,9 +2,13 @@
 
 use App\Http\Controllers\BankAccountsController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\CustomersController;
+use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShippingCostsController;
+use App\Models\Order;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -26,9 +30,35 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
   $role = auth()->user()->role;
   $view = $role == User::ROLE_ADMIN ? "admin.dashboard" : "user.dashboard";
-  return view($view);
-})->middleware(['auth', 'verified'])->name('dashboard');
 
+  if ($role == User::ROLE_ADMIN) {
+    $waitingPaymentCount = Order::where('status', 'menunggu_pembayaran')->count();
+    $paymentCompletedCount = Order::where('status', 'pembayaran_selesai')->count();
+    $shippingCount = Order::where('status', 'sedang_dikirim')->count();
+    $transactionCompletedCount = Order::where('status', 'transaksi_selesai')->count();
+
+    $lastTimeWaitingPayment = Order::where('status', 'menunggu_pembayaran')->latest()->first()->created_at ?? '-';
+    $lastTimePaymentCompleted = Order::where('status', 'pembayaran_selesai')->latest()->first()->created_at ?? '-';
+    $lastTimeShipping = Order::where('status', 'sedang_dikirim')->latest()->first()->created_at ?? '-';
+    $lastTimeCompleted = Order::where('status', 'transaksi_selesai')->latest()->first()->created_at ?? '-';
+
+    $totalProducts = Product::count();
+
+    return view($view, compact(
+      'waitingPaymentCount',
+      'paymentCompletedCount',
+      'shippingCount',
+      'transactionCompletedCount',
+      'totalProducts',
+      'lastTimeWaitingPayment',
+      'lastTimePaymentCompleted',
+      'lastTimeShipping',
+      'lastTimeCompleted',
+    ));
+  } else {
+    return view($view);
+  }
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
 
@@ -53,7 +83,6 @@ Route::middleware('auth')->group(function () {
   Route::put('/admin/bank_accounts/{id}/update', [BankAccountsController::class, 'update'])->name('admin.bank_accounts.update');
   Route::delete('/admin/bank_accounts/{id}/destroy', [BankAccountsController::class, 'destroy'])->name('admin.bank_accounts.destroy');
 
-
   Route::get('/admin/products', [ProductsController::class, 'index'])->name('admin.products');
   Route::get('/admin/products/create', [ProductsController::class, 'create'])->name('admin.products.create');
   Route::get('/admin/products/{id}/show', [ProductsController::class, 'show'])->name('admin.products.show');
@@ -61,6 +90,17 @@ Route::middleware('auth')->group(function () {
   Route::get('/admin/products/{id}/edit', [ProductsController::class, 'edit'])->name('admin.products.edit');
   Route::put('/admin/products/{id}/update', [ProductsController::class, 'update'])->name('admin.products.update');
   Route::delete('/admin/products/{id}/destroy', [ProductsController::class, 'destroy'])->name('admin.products.destroy');
+
+  Route::get('/admin/orders', [OrdersController::class, 'index'])->name('admin.orders');
+  Route::get('/admin/orders/create', [OrdersController::class, 'create'])->name('admin.orders.create');
+  Route::get('/admin/orders/{id}/show', [OrdersController::class, 'show'])->name('admin.orders.show');
+  Route::post('/admin/orders/store', [OrdersController::class, 'store'])->name('admin.orders.store');
+  Route::get('/admin/orders/{id}/edit', [OrdersController::class, 'edit'])->name('admin.orders.edit');
+  Route::put('/admin/orders/{id}/update', [OrdersController::class, 'update'])->name('admin.orders.update');
+  Route::delete('/admin/orders/{id}/destroy', [OrdersController::class, 'destroy'])->name('admin.orders.destroy');
+
+  Route::get('/admin/customers', [CustomersController::class, 'index'])->name('admin.customers');
+  Route::get('/admin/customers/{id}/show', [CustomersController::class, 'show'])->name('admin.customers.show');
 });
 
 Route::middleware('auth')->group(function () {
