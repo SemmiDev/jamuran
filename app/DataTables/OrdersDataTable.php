@@ -8,8 +8,6 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class OrdersDataTable extends DataTable
@@ -22,19 +20,17 @@ class OrdersDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', function ($row) {
-                return view('admin.orders.action', ['row' => $row]);
+            ->addColumn('action', function ($order) {
+                return view('admin.orders.action', ["row" => $order]);
             })
             ->editColumn('status', function ($order) {
                 switch ($order->status) {
                     case 'belum_membayar':
-                        return '<span class="text-error">Belum Membayar</span>';
+                        return '<span class="text-danger">Belum Membayar</span>';
                     case 'sudah_membayar':
-                        return '<span class="text-info">Sudah Membayar</span>';
                     case 'verifikasi':
-                        return '<span class="text-info">Belum Membayar</span>';
                     case 'dikirim':
-                        return '<span class="text-info">Dikirim</span>';
+                        return '<span class="text-info">Dalam Proses</span>';
                     case 'selesai':
                         return '<span class="text-success">Selesai</span>';
                     default:
@@ -44,9 +40,9 @@ class OrdersDataTable extends DataTable
             ->addColumn('buyer_name', function ($order) {
                 return $order->user->name;
             })
-            ->addIndexColumn() // Add this line to include an index column
+            ->addIndexColumn()
             ->setRowId('id')
-            ->rawColumns(['status']);
+            ->rawColumns(['status', 'action']);
     }
 
     /**
@@ -55,8 +51,11 @@ class OrdersDataTable extends DataTable
     public function query(Order $model): QueryBuilder
     {
         $status = request()->get('status');
+
+        // Query to fetch orders with items and user information
         return $model
             ->newQuery()
+            ->with('items')
             ->with('user')
             ->where('status', $status);
     }
@@ -71,7 +70,6 @@ class OrdersDataTable extends DataTable
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->orderBy(1)
-            ->selectStyleSingle()
             ->buttons([
                 Button::make('excel'),
                 Button::make('csv'),
@@ -85,28 +83,24 @@ class OrdersDataTable extends DataTable
     /**
      * Get the dataTable columns definition.
      */
-    public function getColumns(): array
+    protected function getColumns(): array
     {
         return [
             Column::computed('DT_RowIndex')
-                ->title('#') // Set the title of the index column
+                ->title('#')
                 ->orderable(false)
                 ->searchable(false),
             Column::make('buyer_name')
                 ->title('Nama Pembeli'),
             Column::make('address')
                 ->title('Alamat'),
-            Column::make('total_qty')
-                ->title('Jumlah Barang'),
-            Column::make('total_price')
-                ->title('Total Harga'),
             Column::make('status')
                 ->title('Status'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)
-                ->addClass('text-center')
+                ->addClass('text-center'),
         ];
     }
 

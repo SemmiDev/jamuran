@@ -26,20 +26,18 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App\Models
  */
-class Order extends Model
+class  Order extends Model
 {
 	protected $table = 'orders';
 
 	protected $casts = [
 		'buyer_id' => 'int',
-		'total_qty' => 'int',
 		'total_price' => 'float'
 	];
 
 	protected $fillable = [
 		'address',
 		'buyer_id',
-		'total_qty',
 		'total_price',
 		'status', // 'belum_membayar', 'sudah_membayar', 'verifikasi', 'dikirim', 'selesai'
 		'payment_proof' // path file
@@ -48,5 +46,10 @@ class Order extends Model
 	public function user()
 	{
 		return $this->belongsTo(User::class, 'buyer_id');
+	}
+
+	public function items()
+	{
+		return $this->hasMany(OrderItem::class);
 	}
 }

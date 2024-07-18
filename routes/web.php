@@ -6,6 +6,7 @@ use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\ShippingCostsController;
 use App\Models\Order;
 use App\Models\Product;
@@ -101,6 +102,9 @@ Route::middleware('auth')->group(function () {
 
   Route::get('/admin/customers', [CustomersController::class, 'index'])->name('admin.customers');
   Route::get('/admin/customers/{id}/show', [CustomersController::class, 'show'])->name('admin.customers.show');
+
+  Route::get('/admin/reports', [ReportsController::class, 'index'])->name('admin.reports');
+  Route::post('/admin/reports/generate', [ReportsController::class, 'generate'])->name('admin.reports.generate');
 });
 
 Route::middleware('auth')->group(function () {

@@ -119,7 +119,7 @@
       "name": "Laporan",
       "icon": "menu-icon tf-icons bx bx-file",
       "slug": "cards-basic",
-      "url": "cards/basic"
+      "url": "/admin/reports"
     }
   ]
 }

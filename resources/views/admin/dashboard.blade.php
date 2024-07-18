@@ -3,7 +3,7 @@
 @section('content')
     <div class="row row-cols-1 row-cols-md-4 g-3">
         <div class="col">
-            <div class="card border-danger border shadow-lg h-100">
+            <a href="/admin/orders?status=belum_membayar" class="card border-danger shadow-white border shadow-lg h-100">
                 <div class="card-body d-flex flex-column justify-content-center text-center">
                     <i class='bx bxs-hourglass-top bx-lg text-danger'></i>
                     <h5 class="card-title mt-3">Menunggu Pembayaran</h5>
@@ -16,11 +16,11 @@
                         </small>
                     </p>
                 </div>
-            </div>
+            </a>
         </div>
 
         <div class="col">
-            <div class="card border-warning border shadow-lg h-100">
+            <a href="/admin/orders?status=sudah_membayar" class="card border-warning border shadow-lg h-100">
                 <div class="card-body d-flex flex-column justify-content-center text-center">
                     <i class='bx bx-wallet bx-lg text-warning'></i>
                     <h5 class="card-title mt-3">Pembayaran Selesai</h5>
@@ -33,11 +33,11 @@
                         </small>
                     </p>
                 </div>
-            </div>
+            </a>
         </div>
 
         <div class="col">
-            <div class="card border-primary border shadow-lg h-100">
+            <a href="/admin/orders?status=dikirim" class="card border-primary border shadow-lg h-100">
                 <div class="card-body d-flex flex-column justify-content-center text-center">
                     <i class='bx bxl-telegram bx-lg text-primary'></i>
                     <h5 class="card-title mt-3">Sedang Dikirim</h5>
@@ -50,11 +50,11 @@
                         </small>
                     </p>
                 </div>
-            </div>
+            </a>
         </div>
 
         <div class="col">
-            <div class="card border-success border shadow-lg h-100">
+            <a href="/admin/orders?status=selesai" class="card border-success border shadow-lg h-100">
                 <div class="card-body d-flex flex-column justify-content-center text-center">
                     <i class='bx bx-calendar-check bx-lg text-success'></i>
                     <h5 class="card-title mt-3">Transaksi Selesai</h5>
@@ -67,7 +67,7 @@
                         </small>
                     </p>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
 

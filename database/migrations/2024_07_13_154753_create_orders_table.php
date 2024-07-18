@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->text('address'); // Alamat
             $table->foreignId('buyer_id')->constrained('users')->onDelete('cascade'); // Pembeli ID reference ke tabel users
-            $table->integer('total_qty'); // Total quantity
             $table->decimal('total_price', 10, 2); // Total harga
             $table->enum('status', ['belum_membayar', 'sudah_membayar', 'verifikasi', 'dikirim', 'selesai']); // Status enum
             $table->mediumText('payment_proof')->nullable(); // Bukti transfer
