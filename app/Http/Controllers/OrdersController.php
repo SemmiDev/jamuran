@@ -18,9 +18,18 @@ class OrdersController extends Controller
         return view('admin.orders.create');
     }
 
+    public function show($id)
+    {
+        $order = Order::find($id);
+        $order->load('items.product', 'user'); // Load related order items and user
+
+        return view('admin.orders.show', compact('order'));
+    }
+
     public function edit($id)
     {
         $order = Order::with(['user'])->find($id);
+
         return view('admin.orders.edit', [
             'order' => $order,
         ]);
@@ -29,14 +38,13 @@ class OrdersController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'address' => 'required|string|max:255',
-            'status' => 'required|string|in:belum_membayar,sudah_membayar,verifikasi,dikirim,selesai',
+            'status' => 'required|in:belum_membayar,sudah_membayar,verifikasi,dikirim,selesai',
         ]);
 
-        $order = Order::findOrFail($id);
-        $order->address = $request->input('address');
-        $order->status = $request->input('status');
-        $order->save();
+        $order = Order::with(['user'])->find($id);
+        $order->update([
+            'status' => $request->status,
+        ]);
 
         return redirect()->route('admin.orders', ['status' => request('status')])->with('success', 'Pemesanan berhasil diperbarui.');
     }

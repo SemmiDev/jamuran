@@ -1,6 +1,6 @@
 @extends('layouts/blankLayout')
 
-@section('title', 'Register Basic - Pages')
+@section('title', 'Daftar')
 
 @section('page-style')
     <!-- Page -->

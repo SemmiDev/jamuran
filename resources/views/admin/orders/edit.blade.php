@@ -13,26 +13,6 @@
                         @method('PUT')
                         <div class="row">
                             <div class="mb-3 col-md-6">
-                                <label for="buyer_name" class="form-label">Nama Pembeli</label>
-                                <input class="form-control" type="text" id="buyer_name" value="{{ $order->user->name }}"
-                                    readonly />
-                            </div>
-                            <div class="mb-3 col-md-6">
-                                <label for="total_qty" class="form-label">Total Kuantitas</label>
-                                <input class="form-control" type="number" id="total_qty" value="{{ $order->total_qty }}"
-                                    readonly />
-                            </div>
-                            <div class="mb-3 col-md-6">
-                                <label for="total_price" class="form-label">Total Harga</label>
-                                <input class="form-control" type="text" id="total_price"
-                                    value="{{ $order->total_price }}" readonly />
-                            </div>
-                            <div class="mb-3 col-md-6">
-                                <label for="address" class="form-label">Alamat</label>
-                                <input class="form-control" type="text" id="address" name="address"
-                                    value="{{ $order->address }}" required autofocus />
-                            </div>
-                            <div class="mb-3 col-md-6">
                                 <label for="status" class="form-label">Status</label>
                                 <select class="form-control" id="status" name="status" required>
                                     <option value="belum_membayar"
@@ -49,18 +29,8 @@
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label for="created_at" class="form-label">Tanggal Order</label>
-                                <input class="form-control" type="text" id="created_at" value="{{ $order->created_at }}"
-                                    readonly />
-                            </div>
-                            <div class="mb-3 col-md-6">
-                                <label for="payment_proof" class="form-label">Bukti Pembayaran</label>
-                                @if ($order->payment_proof)
-                                    <a href="{{ asset('storage/' . $order->payment_proof) }}" target="_blank">Lihat Bukti
-                                        Pembayaran</a>
-                                @else
-                                    <input class="form-control" type="text" value="Belum ada bukti pembayaran"
-                                        readonly />
-                                @endif
+                                <input class="form-control border-none" type="text" id="created_at"
+                                    value="{{ $order->created_at }}" readonly />
                             </div>
                             <div class="mt-2">
                                 <button type="submit" class="btn btn-primary me-2">Simpan Perubahan</button>
@@ -70,7 +40,6 @@
                         </div>
                     </form>
                 </div>
-                <!-- /Account -->
             </div>
         </div>
     </div>
