@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->text('address'); // Alamat
+            $table->text('notes')->nullable(true); // Alamat
             $table->foreignId('buyer_id')->constrained('users')->onDelete('cascade'); // Pembeli ID reference ke tabel users
+            $table->decimal('shipping_cost', 10, 2);
             $table->decimal('total_price', 10, 2); // Total harga
             $table->enum('status', ['belum_membayar', 'sudah_membayar', 'verifikasi', 'dikirim', 'selesai']); // Status enum
             $table->mediumText('payment_proof')->nullable(); // Bukti transfer

@@ -24,7 +24,7 @@
                             </a>
                         </div>
                         <!-- /Logo -->
-                        <h4 class="mb-2">Selamat Datang di Jamurku 👋</h4>
+                        <h4 class="mb-2">Selamat Datang di Jamur Nagari Limau Manis 👋</h4>
                         <p class="mb-4">
                             Silahkan membuat akun terlebih dahulu
                         </p>

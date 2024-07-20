@@ -118,7 +118,7 @@
     {
       "name": "Laporan",
       "icon": "menu-icon tf-icons bx bx-file",
-      "slug": "cards-basic",
+      "slug": "admin.reports",
       "url": "/admin/reports"
     }
   ]

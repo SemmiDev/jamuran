@@ -38,7 +38,9 @@ class  Order extends Model
 	protected $fillable = [
 		'address',
 		'buyer_id',
+		'shipping_cost',
 		'total_price',
+		'notes',
 		'status', // 'belum_membayar', 'sudah_membayar', 'verifikasi', 'dikirim', 'selesai'
 		'payment_proof' // path file
 	];

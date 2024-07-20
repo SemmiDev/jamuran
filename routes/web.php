@@ -8,21 +8,15 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\ShippingCostsController;
+use App\Http\Controllers\UserProductsController;
+use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+\Carbon\Carbon::setLocale('id');
 
 Route::get('/', function () {
   return view('welcome');
@@ -57,7 +51,29 @@ Route::get('/dashboard', function () {
       'lastTimeCompleted',
     ));
   } else {
-    return view($view);
+    $categories = Category::withCount('products')->latest()->get();
+
+    $carouselProducts = Product::latest()->take(5)->get();
+
+    $products = DB::table('products')
+      ->select('products.id', 'products.photo', 'categories.name as category', 'products.product_name', 'products.price', 'products.stock', 'products.description', 'products.updated_at', DB::raw('COALESCE(SUM(order_items.quantity), 0) as total_sold'))
+      ->leftJoin('order_items', 'products.id', '=', 'order_items.product_id')
+      ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
+      ->when(request('q'), function ($query, $q) {
+        return $query->where('products.product_name', 'like', '%' . $q . '%')->orWhere('products.description', 'like', '%' . $q . '%');
+      })
+      ->when(request('category'), function ($query, $category) {
+        return $query->where('categories.name', $category);
+      })
+      ->groupBy('products.id', 'products.photo', 'categories.name', 'products.product_name', 'products.price', 'products.stock', 'products.description', 'products.updated_at')
+      ->orderBy('total_sold', 'desc')
+      ->simplePaginate(25);
+
+    return view($view, [
+      'products' => $products,
+      'categories' => $categories,
+      'carouselProducts' => $carouselProducts
+    ]);
   }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -106,6 +122,11 @@ Route::middleware('auth')->group(function () {
   Route::get('/admin/reports', [ReportsController::class, 'index'])->name('admin.reports');
   Route::post('/admin/reports/generate', [ReportsController::class, 'generate'])->name('admin.reports.generate');
 });
+
+Route::get('/products/{id}/show', [UserProductsController::class, 'show'])->name('products.show');
+Route::post('/products/{id}/checkout', [UserProductsController::class, 'checkout'])->name('products.checkout');
+
+Route::get('/users/orders', [UserProductsController::class, 'orders'])->name('users.orders');
 
 Route::middleware('auth')->group(function () {
   Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

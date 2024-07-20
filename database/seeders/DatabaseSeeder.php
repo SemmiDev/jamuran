@@ -21,5 +21,18 @@ class DatabaseSeeder extends Seeder
             'role' => User::ROLE_ADMIN,
             'password' => bcrypt('password'),
         ]);
+
+        \App\Models\User::create([
+            'name' => 'Finda',
+            'email' => 'finda@gmail.com',
+            'username' => 'finda',
+            'role' => User::ROLE_USER,
+            'password' => bcrypt('password'),
+        ]);
+
+        \App\Models\Address::create([
+            'user_id' => 2,
+            'address' => 'Talu, Pasaman Barat',
+        ]);
     }
 }

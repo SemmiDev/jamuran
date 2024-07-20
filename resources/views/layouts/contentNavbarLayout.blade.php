@@ -5,6 +5,7 @@
     $contentNavbar = true;
     $containerNav = $containerNav ?? 'container-xxl';
     $isNavbar = $isNavbar ?? true;
+    $isUserNavbar = $isUserNavbar ?? false;
     $isMenu = $isMenu ?? true;
     $isFlex = $isFlex ?? false;
     $isFooter = $isFooter ?? true;
@@ -21,10 +22,10 @@
     <div class="layout-wrapper layout-content-navbar {{ $isMenu ? '' : 'layout-without-menu' }}">
         <div class="layout-container">
 
+
             @if ($isMenu)
                 @include('layouts/sections/menu/verticalMenu')
             @endif
-
 
             <!-- Layout page -->
             <div class="layout-page">
@@ -32,6 +33,9 @@
                 @if ($isNavbar)
                     @include('layouts/sections/navbar/navbar')
                 @endif
+                <!-- END: Navbar-->
+
+                <!-- BEGIN: Navbar-->
                 <!-- END: Navbar-->
 
 

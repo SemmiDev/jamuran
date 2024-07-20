@@ -1,81 +1,107 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="row row-cols-1 row-cols-md-4 g-3">
-        <div class="col">
-            <a href="/admin/orders?status=belum_membayar" class="card border-danger shadow-white border shadow-lg h-100">
-                <div class="card-body d-flex flex-column justify-content-center text-center">
-                    <i class='bx bxs-hourglass-top bx-lg text-danger'></i>
-                    <h5 class="card-title mt-3">Menunggu Pembayaran</h5>
-                    <p class="card-text fw-bold text-danger" style="font-size: 30px">
-                        {{ $waitingPaymentCount }}
-                    </p>
-                    <p class="card-text">
-                        <small class="text-muted">
-                            {{ $lastTimeWaitingPayment ?? \Carbon\Carbon::parse($lastTimeWaitingPayment)->diffForHumans() }}
-                        </small>
-                    </p>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-12 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-start justify-content-between">
+                            <div class="avatar flex-shrink-0">
+                                <img src="../assets/img/icons/unicons/chart-success.png" alt="chart success" class="rounded">
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn p-0" type="button" id="cardOpt1" data-bs-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt1">
+                                    <a class="dropdown-item" href="/admin/orders?status=belum_membayar">Selengkapnya</a>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="fw-medium d-block mb-1 mt-2">Menunggu Pembayaran</span>
+                        <h3 class="card-title mb-2">{{ $waitingPaymentCount }}</h3>
+                        <small
+                            class="text-success fw-medium">{{ $lastTimeWaitingPayment != '-' ? \Carbon\Carbon::parse($lastTimeWaitingPayment)->diffForHumans() : 'Belum Ada' }}</small>
+                    </div>
                 </div>
-            </a>
-        </div>
+            </div>
 
-        <div class="col">
-            <a href="/admin/orders?status=sudah_membayar" class="card border-warning border shadow-lg h-100">
-                <div class="card-body d-flex flex-column justify-content-center text-center">
-                    <i class='bx bx-wallet bx-lg text-warning'></i>
-                    <h5 class="card-title mt-3">Pembayaran Selesai</h5>
-                    <p class="card-text fw-bold text-warning" style="font-size: 30px">
-                        {{ $paymentCompletedCount }}
-                    </p>
-                    <p class="card-text">
-                        <small class="text-muted">
-                            {{ $lastTimePaymentCompleted ?? \Carbon\Carbon::parse($lastTimePaymentCompleted)->diffForHumans() }}
-                        </small>
-                    </p>
+            <div class="col-lg-3 col-md-6 col-12 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-start justify-content-between">
+                            <div class="avatar flex-shrink-0">
+                                <img src="../assets/img/icons/unicons/wallet-info.png" alt="Credit Card" class="rounded">
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn p-0" type="button" id="cardOpt2" data-bs-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt2">
+                                    <a class="dropdown-item" href="/admin/orders?status=sudah_membayar">Selengkapnya</a>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="fw-medium d-block mb-1 mt-2">Pembayaran Selesai</span>
+                        <h3 class="card-title text-nowrap mb-1">{{ $paymentCompletedCount }}</h3>
+                        <small
+                            class="text-info fw-medium">{{ $lastTimePaymentCompleted != '-' ? \Carbon\Carbon::parse($lastTimePaymentCompleted)->diffForHumans() : 'Belum Ada' }}</small>
+                    </div>
                 </div>
-            </a>
-        </div>
+            </div>
 
-        <div class="col">
-            <a href="/admin/orders?status=dikirim" class="card border-primary border shadow-lg h-100">
-                <div class="card-body d-flex flex-column justify-content-center text-center">
-                    <i class='bx bxl-telegram bx-lg text-primary'></i>
-                    <h5 class="card-title mt-3">Sedang Dikirim</h5>
-                    <p class="card-text fw-bold text-primary" style="font-size: 30px">
-                        {{ $shippingCount }}
-                    </p>
-                    <p class="card-text">
-                        <small class="text-muted">
-                            {{ $lastTimeShipping ?? \Carbon\Carbon::parse($lastTimeShipping)->diffForHumans() }}
-                        </small>
-                    </p>
+            <div class="col-lg-3 col-md-6 col-12 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-start justify-content-between">
+                            <div class="avatar flex-shrink-0">
+                                <img src="../assets/img/icons/unicons/cc-warning.png" alt="Credit Card" class="rounded">
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn p-0" type="button" id="cardOpt3" data-bs-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
+                                    <a class="dropdown-item" href="/admin/orders?status=dikirim">Selengkapnya</a>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="fw-medium d-block mb-1 mt-2">Sedang Dikirim</span>
+                        <h3 class="card-title text-nowrap mb-1">{{ $shippingCount }}</h3>
+                        <small
+                            class="text-warning fw-medium">{{ $lastTimeShipping != '-' ? \Carbon\Carbon::parse($lastTimeShipping)->diffForHumans() : 'Belum Ada' }}</small>
+                    </div>
                 </div>
-            </a>
-        </div>
+            </div>
 
-        <div class="col">
-            <a href="/admin/orders?status=selesai" class="card border-success border shadow-lg h-100">
-                <div class="card-body d-flex flex-column justify-content-center text-center">
-                    <i class='bx bx-calendar-check bx-lg text-success'></i>
-                    <h5 class="card-title mt-3">Transaksi Selesai</h5>
-                    <p class="card-text fw-bold text-success" style="font-size: 30px">
-                        {{ $transactionCompletedCount }}
-                    </p>
-                    <p class="card-text">
-                        <small class="text-muted">
-                            {{ $lastTimeCompleted ?? \Carbon\Carbon::parse($lastTimeCompleted)->diffForHumans() }}
-                        </small>
-                    </p>
+            <div class="col-lg-3 col-md-6 col-12 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-start justify-content-between">
+                            <div class="avatar flex-shrink-0">
+                                <img src="../assets/img/icons/unicons/wallet-info.png" alt="Credit Card" class="rounded">
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn p-0" type="button" id="cardOpt4" data-bs-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt4">
+                                    <a class="dropdown-item" href="/admin/orders?status=selesai">Selengkapnya</a>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="fw-medium d-block mb-1 mt-2">Transaksi Selesai</span>
+                        <h3 class="card-title text-nowrap mb-1">{{ $transactionCompletedCount }}</h3>
+                        <small
+                            class="text-info fw-medium">{{ $lastTimeCompleted != '-' ? \Carbon\Carbon::parse($lastTimeCompleted)->diffForHumans() : 'Belum Ada' }}</small>
+                    </div>
                 </div>
-            </a>
+            </div>
         </div>
     </div>
-
-    {{-- <div class="card mb-3">
-        <div class="card-header">Total Produk</div>
-        <div class="card-body">
-            <h5 class="card-title">{{ $totalProducts }}</h5>
-            <p class="card-text">Jumlah total produk yang terdaftar.</p>
-        </div>
-    </div> --}}
 @endsection

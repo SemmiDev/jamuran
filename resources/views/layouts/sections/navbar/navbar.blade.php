@@ -1,12 +1,11 @@
 @php
     $containerNav = $containerNav ?? 'container-fluid';
     $navbarDetached = $navbarDetached ?? '';
-
 @endphp
 
 <!-- Navbar -->
 @if (isset($navbarDetached) && $navbarDetached == 'navbar-detached')
-    <nav class="layout-navbar {{ $containerNav }} navbar navbar-expand-xl {{ $navbarDetached }} align-items-center bg-navbar-theme"
+    <nav class="layout-navbar {{ $containerNav }} shadow-none navbar navbar-expand-xl {{ $navbarDetached }} align-items-center bg-navbar-theme"
         id="layout-navbar">
 @endif
 @if (isset($navbarDetached) && $navbarDetached == '')
@@ -36,12 +35,34 @@
 
 <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
     <!-- Search -->
-    <div class="navbar-nav align-items-center">
-        Kampung Jamur Limau Manis
-    </div>
-    <!-- /Search -->
-    <ul class="navbar-nav flex-row align-items-center ms-auto">
 
+    @if (auth()->user()->role == 'Admin')
+        <a href="{{ route('dashboard') }}" class="navbar-nav align-items-center text-light">
+            Kampung Jamur Limau Manis
+        </a>
+    @else
+        <div>
+            <form method="get" action="{{ route('dashboard') }}" class="input-group  input-group-merge"
+                onsubmit="return handleEnter(event)">
+                <span class="input-group-text" id="basic-addon-search31"><i class="bx bx-search"></i></span>
+                <input type="text" name="q" class="form-control" placeholder="Cari Produk..."
+                    aria-label="Cari Produk..." aria-describedby="basic-addon-search31"
+                    onkeydown="submitOnEnter(event)" />
+            </form>
+        </div>
+
+        <script>
+            function submitOnEnter(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault(); // Prevent the default form submission
+                    event.target.form.submit(); // Submit the form
+                }
+            }
+        </script>
+    @endif
+
+
+    <ul class="navbar-nav flex-row align-items-center ms-auto">
         <div class="d-none d-md-block">
             {{ ucwords(auth()->user()->username) }}
         </div>
@@ -50,7 +71,12 @@
         <li class="nav-item navbar-dropdown dropdown-user dropdown">
             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                 <div class="avatar avatar-online">
-                    <img src="{{ asset('assets/img/avatars/1.png') }}" alt class="w-px-40 h-auto rounded-circle">
+                    @if (auth()->user()->photo)
+                        <img src="{{ asset('storage/' . auth()->user()->photo) }}" alt
+                            class="w-px-40 h-48 rounded-circle">
+                    @else
+                        <img src="{{ asset('assets/img/avatars/1.png') }}" alt class="w-px-40 h-48 rounded-circle">
+                    @endif
                 </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
@@ -59,8 +85,13 @@
                         <div class="d-flex">
                             <div class="flex-shrink-0 me-3">
                                 <div class="avatar avatar-online">
-                                    <img src="{{ asset('assets/img/avatars/1.png') }}" alt
-                                        class="w-px-40 h-auto rounded-circle">
+                                    @if (auth()->user()->photo)
+                                        <img src="{{ asset('storage/' . auth()->user()->photo) }}" alt
+                                            class="w-px-40 h-48 rounded-circle">
+                                    @else
+                                        <img src="{{ asset('assets/img/avatars/1.png') }}" alt
+                                            class="w-px-40 h-48 rounded-circle">
+                                    @endif
                                 </div>
                             </div>
                             <div class="flex-grow-1">
@@ -78,32 +109,23 @@
                     <div class="dropdown-divider"></div>
                 </li>
                 <li>
-                    <a class="dropdown-item" href="javascript:void(0);">
+                    <a class="dropdown-item" href="{{ route('profile.edit') }}">
                         <i class="bx bx-user me-2"></i>
                         <span class="align-middle">Informasi Profil</span>
                     </a>
                 </li>
-                <li>
-                    <a class="dropdown-item" href="javascript:void(0);">
-                        <i class='bx bx-cog me-2'></i>
-                        <span class="align-middle">Pengaturan</span>
-                    </a>
-                </li>
-                {{-- <li>
-                    <a class="dropdown-item" href="javascript:void(0);">
-                        <span class="d-flex align-items-center align-middle">
-                            <i class="flex-shrink-0 bx bx-credit-card me-2 pe-1"></i>
-                            <span class="flex-grow-1 align-middle">Billing</span>
-                            <span
-                                class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                        </span>
-                    </a>
-                </li> --}}
+                @if (auth()->user()->role == 'User')
+                    <li>
+                        <a class="dropdown-item" href="{{ route('users.orders') }}">
+                            <i class="bx bx-cart me-2"></i>
+                            <span class="align-middle">Pesanan Anda</span>
+                        </a>
+                    </li>
+                @endif
                 <li>
                     <div class="dropdown-divider"></div>
                 </li>
                 <li>
-
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
                         <button type="submit" class="dropdown-item">
