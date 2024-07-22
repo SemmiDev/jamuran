@@ -45,8 +45,13 @@
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label for="owner_name" class="form-label">Nama Pemilik</label>
-                                <input class="form-control" type="text" id="owner_name" name="owner_name"
-                                    placeholder="Nama Pemilik" required />
+                                <input list="merchants" class="form-control" placeholder="Masukkan nama pemilik produk"
+                                    id="owner_name" name="owner_name">
+                                <datalist id="merchants">
+                                    @foreach ($merchants as $merchant)
+                                        <option value="{{ $merchant }}"></option>
+                                    @endforeach
+                                </datalist>
                             </div>
                             <div class="mt-2">
                                 <button type="submit" class="btn btn-primary me-2">Simpan</button>

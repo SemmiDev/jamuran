@@ -17,7 +17,9 @@ class ProductsController extends Controller
     public function create()
     {
         $categories = Category::latest()->get();
-        return view('admin.products.create', compact('categories'));
+
+        $merchants = Product::distinct()->pluck('owner_name');
+        return view('admin.products.create', compact('categories', 'merchants'));
     }
 
     public function show($id)
@@ -66,7 +68,8 @@ class ProductsController extends Controller
     {
         $product = Product::with(['category'])->find($id);
         $categories = Category::all();
-        return view('admin.products.edit', compact('product', 'categories'));
+        $merchants = Product::distinct()->pluck('owner_name');
+        return view('admin.products.edit', compact('product', 'categories', 'merchants'));
     }
 
     public function update(Request $request, $id)

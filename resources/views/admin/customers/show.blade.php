@@ -54,7 +54,8 @@
                                     <td>{{ ucwords(str_replace('_', ' ', $order->status)) }}</td>
                                     <td>
                                         @if ($order->payment_proof)
-                                            <a href="{{ asset($order->payment_proof) }}" target="_blank">Lihat</a>
+                                            <a href="{{ asset('storage/' . $order->payment_proof) }}"
+                                                target="_blank">Lihat</a>
                                         @else
                                             Tidak Ada
                                         @endif
