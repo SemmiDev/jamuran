@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.user')
 
 @section('content')
     <div class="card">
@@ -61,9 +61,6 @@
 
                 </tbody>
             </table>
-
-            <a href="{{ route('admin.orders', ['status' => request('status')]) }}"
-                class="btn mt-5 btn-outline-secondary">Kembali</a>
         </div>
     </div>
 @endsection

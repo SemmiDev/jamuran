@@ -27,15 +27,15 @@ Route::get('/dashboard', function () {
   $view = $role == User::ROLE_ADMIN ? "admin.dashboard" : "user.dashboard";
 
   if ($role == User::ROLE_ADMIN) {
-    $waitingPaymentCount = Order::where('status', 'menunggu_pembayaran')->count();
-    $paymentCompletedCount = Order::where('status', 'pembayaran_selesai')->count();
-    $shippingCount = Order::where('status', 'sedang_dikirim')->count();
-    $transactionCompletedCount = Order::where('status', 'transaksi_selesai')->count();
+    $waitingPaymentCount = Order::where('status', 'belum_membayar')->count();
+    $paymentCompletedCount = Order::where('status', 'sudah_membayar')->count();
+    $shippingCount = Order::where('status', 'dikirim')->count();
+    $transactionCompletedCount = Order::where('status', 'selesai')->count();
 
-    $lastTimeWaitingPayment = Order::where('status', 'menunggu_pembayaran')->latest()->first()->created_at ?? '-';
-    $lastTimePaymentCompleted = Order::where('status', 'pembayaran_selesai')->latest()->first()->created_at ?? '-';
-    $lastTimeShipping = Order::where('status', 'sedang_dikirim')->latest()->first()->created_at ?? '-';
-    $lastTimeCompleted = Order::where('status', 'transaksi_selesai')->latest()->first()->created_at ?? '-';
+    $lastTimeWaitingPayment = Order::where('status', 'belum_membayar')->latest()->first()->created_at ?? '-';
+    $lastTimePaymentCompleted = Order::where('status', 'sudah_membayar')->latest()->first()->created_at ?? '-';
+    $lastTimeShipping = Order::where('status', 'dikirim')->latest()->first()->created_at ?? '-';
+    $lastTimeCompleted = Order::where('status', 'selesai')->latest()->first()->created_at ?? '-';
 
     $totalProducts = Product::count();
 
@@ -127,6 +127,10 @@ Route::get('/products/{id}/show', [UserProductsController::class, 'show'])->name
 Route::post('/products/{id}/checkout', [UserProductsController::class, 'checkout'])->name('products.checkout');
 
 Route::get('/users/orders', [UserProductsController::class, 'orders'])->name('users.orders');
+Route::put('/users/orders/{id}', [UserProductsController::class, 'cancelOrder'])->name('users.orders.cancel');
+Route::post('/users/orders/{id}/pay', [UserProductsController::class, 'payOrder'])->name('users.orders.pay');
+Route::post('/users/orders/{id}/accept', [UserProductsController::class, 'accept'])->name('users.orders.accept');
+Route::get('/users/orders/{id}/detail', [UserProductsController::class, 'detail'])->name('users.orders.detail');
 
 Route::middleware('auth')->group(function () {
   Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

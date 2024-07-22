@@ -67,6 +67,8 @@ class UserProductsController extends Controller
         $totalDikirim = $dikirim->count();
         $totalSelesai = $selesai->count();
 
+        $bankAccounts = BankAccount::latest()->get();
+
         return view('user.orders.index', [
             'belumMembayar' => $belumMembayar,
             'sudahMembayar' => $sudahMembayar,
@@ -80,6 +82,64 @@ class UserProductsController extends Controller
             'totalVerifikasi' => $totalVerifikasi,
             'totalDikirim' => $totalDikirim,
             'totalSelesai' => $totalSelesai,
+            'bankAccounts' => $bankAccounts,
         ]);
+    }
+
+    public function cancelOrder($id)
+    {
+        $order = Order::with('items')->find($id);
+        if ($order) {
+            foreach ($order->items as $item) {
+                $product = Product::find($item->product_id);
+                if ($product) {
+                    $product->increment('stock', $item->quantity);
+                }
+            }
+            $order->delete();
+        }
+        return redirect()->route('users.orders')->with('success', 'Pesanan berhasil dibatalkan');
+    }
+
+    public function payOrder(Request $request, $id)
+    {
+        $order = Order::find($id);
+        if ($order) {
+            $validatedData = $request->validate([
+                'payment_proof' => 'required|image|mimes:jpg,jpeg,png',
+            ]);
+
+            $paymentProof = $validatedData['payment_proof'];
+            $fileName = '/orders/payment_proof_' . time() . '.' . $paymentProof->getClientOriginalExtension();
+
+            $paymentProofName = $paymentProof->storeAs('/public', $fileName);
+
+            $order->update([
+                'payment_proof' => $fileName,
+                'status' => 'sudah_membayar',
+            ]);
+
+            return redirect()->route('users.orders')->with('success', 'Pembayaran berhasil diupload. Silakan tunggu verifikasi.');
+        } else {
+            return redirect()->route('users.orders')->with('error', 'Order tidak ditemukan.');
+        }
+    }
+
+    public function detail($id)
+    {
+        $order = Order::find($id);
+        $order->load('items.product', 'user'); // Load related order items and user
+
+        return view('user.orders.show', compact('order'));
+    }
+
+    public function accept($id)
+    {
+        $order = Order::find($id);
+        $order->update([
+            'status' => 'selesai',
+        ]);
+
+        return redirect()->route('users.orders')->with('success', 'Pesanan telah diselesaikan.');
     }
 }

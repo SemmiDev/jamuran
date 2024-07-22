@@ -109,15 +109,82 @@
                                             {{ \App\Models\CurrencyHelper::formatRupiah($products->total_price) }}
                                         </td>
                                         <td>
-                                            <button class="btn btn-sm btn-success">
-                                                Detail Pesanan
-                                            </button>
-                                            <button class="btn btn-sm btn-info">
-                                                Bayar Sekarang
-                                            </button>
-                                            <button class="btn btn-sm btn-danger">
-                                                Batalkan Pesanan
-                                            </button>
+                                            <div class="d-flex gap-2 align-middle flex-wrap">
+                                                <a href="{{ route('users.orders.detail', ['id' => $products->id]) }}"
+                                                    class="btn btn-sm btn-success">
+                                                    Detail Pesanan
+                                                </a>
+                                                <div>
+                                                    <button type="button" class="btn btn-sm btn-primary"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="{{ '#basicModal' . $products->id }}">
+                                                        Bayar Sekarang
+                                                    </button>
+                                                    <div class="modal fade" id="{{ 'basicModal' . $products->id }}"
+                                                        tabindex="-1" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <form method="post"
+                                                                action="{{ route('users.orders.pay', ['id' => $products->id]) }}"
+                                                                enctype="multipart/form-data" class="modal-content">
+                                                                @csrf
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabel1">
+                                                                        Bayar Pesanan
+                                                                    </h5>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="row">
+                                                                        <div class="col mb-3">
+                                                                            <label for="photo"
+                                                                                class="form-label">Silahkan Transfer ke
+                                                                                Salah Satu Bank</label>
+                                                                            <div class="demo-inline-spacing mt-3">
+                                                                                <ul class="list-group">
+                                                                                    @foreach ($bankAccounts as $bank)
+                                                                                        <li
+                                                                                            class="list-group-item d-flex gap-3 align-items-center">
+                                                                                            {{ $bank->name }}
+                                                                                            <span class="badge bg-info">
+                                                                                                {{ $bank->account_number }}
+                                                                                            </span>
+                                                                                        </li>
+                                                                                    @endforeach
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col mb-3">
+                                                                            <label for="payment_proof"
+                                                                                class="form-label">Upload Bukti
+                                                                                Pembayaran</label>
+                                                                            <input class="form-control" type="file"
+                                                                                accept="image/*" id="payment_proof"
+                                                                                name="payment_proof" required />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button"
+                                                                        class="btn btn-outline-secondary"
+                                                                        data-bs-dismiss="modal">Tutup</button>
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary">Simpan</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <form method="post"
+                                                    action="{{ route('users.orders.cancel', ['id' => $products->id]) }}">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <button type="submit" class="btn btn-sm btn-danger">
+                                                        Batalkan Pesanan
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -181,12 +248,14 @@
                                             {{ \App\Models\CurrencyHelper::formatRupiah($products->total_price) }}
                                         </td>
                                         <td>
-                                            <button class="btn btn-sm btn-success">
+                                            <a href="{{ route('users.orders.detail', ['id' => $products->id]) }}"
+                                                class="btn btn-sm btn-success">
                                                 Detail Pesanan
-                                            </button>
-                                            <button class="btn btn-sm btn-info">
+                                            </a>
+                                            <a href="{{ asset('storage/' . $products->payment_proof) }}" target="_blank"
+                                                target="_blank" class="btn btn-sm btn-info">
                                                 Lihat Bukti Pembayaran
-                                            </button>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -250,9 +319,10 @@
                                             {{ \App\Models\CurrencyHelper::formatRupiah($products->total_price) }}
                                         </td>
                                         <td>
-                                            <button class="btn btn-sm btn-success">
+                                            <a href="{{ route('users.orders.detail', ['id' => $products->id]) }}"
+                                                class="btn btn-sm btn-success">
                                                 Detail Pesanan
-                                            </button>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -263,7 +333,7 @@
             </div>
             <div class="tab-pane fade" id="sedang-dikirim" role="tabpanel">
                 <div class="card">
-                    <h5 class="card-header">Verifikasi</h5>
+                    <h5 class="card-header">Sedang Dikirim</h5>
                     <div class="table-responsive text-nowrap">
                         <table class="table">
                             <thead>
@@ -316,9 +386,21 @@
                                             {{ \App\Models\CurrencyHelper::formatRupiah($products->total_price) }}
                                         </td>
                                         <td>
-                                            <button class="btn btn-sm btn-success">
-                                                Detail Pesanan
-                                            </button>
+                                            <div class="flex gap-2 items-baseline flex-wrap">
+
+                                                <a href="{{ route('users.orders.detail', ['id' => $products->id]) }}"
+                                                    class="btn btn-sm btn-success">
+                                                    Detail Pesanan
+                                                </a>
+                                                <form method="post"
+                                                    action="{{ route('users.orders.accept', ['id' => $products->id]) }}">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-sm btn-info">
+                                                        Selesaikan Pesanan
+                                                    </button>
+                                                </form>
+
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -329,7 +411,7 @@
             </div>
             <div class="tab-pane fade" id="selesai" role="tabpanel">
                 <div class="card">
-                    <h5 class="card-header">Verifikasi</h5>
+                    <h5 class="card-header">Selesai</h5>
                     <div class="table-responsive text-nowrap">
                         <table class="table">
                             <thead>
@@ -382,9 +464,10 @@
                                             {{ \App\Models\CurrencyHelper::formatRupiah($products->total_price) }}
                                         </td>
                                         <td>
-                                            <button class="btn btn-sm btn-success">
+                                            <a href="{{ route('users.orders.detail', ['id' => $products->id]) }}"
+                                                class="btn btn-sm btn-success">
                                                 Detail Pesanan
-                                            </button>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach
