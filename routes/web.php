@@ -77,7 +77,7 @@ Route::get('/dashboard', function () {
   }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'AdminRole'])->group(function () {
 
   Route::get('/admin/categories', [CategoriesController::class, 'index'])->name('admin.categories');
   Route::get('/admin/categories/create', [CategoriesController::class, 'create'])->name('admin.categories.create');
@@ -123,14 +123,17 @@ Route::middleware('auth')->group(function () {
   Route::post('/admin/reports/generate', [ReportsController::class, 'generate'])->name('admin.reports.generate');
 });
 
-Route::get('/products/{id}/show', [UserProductsController::class, 'show'])->name('products.show');
-Route::post('/products/{id}/checkout', [UserProductsController::class, 'checkout'])->name('products.checkout');
 
-Route::get('/users/orders', [UserProductsController::class, 'orders'])->name('users.orders');
-Route::put('/users/orders/{id}', [UserProductsController::class, 'cancelOrder'])->name('users.orders.cancel');
-Route::post('/users/orders/{id}/pay', [UserProductsController::class, 'payOrder'])->name('users.orders.pay');
-Route::post('/users/orders/{id}/accept', [UserProductsController::class, 'accept'])->name('users.orders.accept');
-Route::get('/users/orders/{id}/detail', [UserProductsController::class, 'detail'])->name('users.orders.detail');
+Route::middleware(['auth', 'UserRole'])->group(function () {
+  Route::get('/products/{id}/show', [UserProductsController::class, 'show'])->name('products.show');
+  Route::post('/products/{id}/checkout', [UserProductsController::class, 'checkout'])->name('products.checkout');
+
+  Route::get('/users/orders', [UserProductsController::class, 'orders'])->name('users.orders');
+  Route::put('/users/orders/{id}', [UserProductsController::class, 'cancelOrder'])->name('users.orders.cancel');
+  Route::post('/users/orders/{id}/pay', [UserProductsController::class, 'payOrder'])->name('users.orders.pay');
+  Route::post('/users/orders/{id}/accept', [UserProductsController::class, 'accept'])->name('users.orders.accept');
+  Route::get('/users/orders/{id}/detail', [UserProductsController::class, 'detail'])->name('users.orders.detail');
+});
 
 Route::middleware('auth')->group(function () {
   Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
