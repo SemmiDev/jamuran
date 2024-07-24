@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
@@ -26,12 +27,15 @@ class ReportsController extends Controller
         $startDate = Carbon::parse($request->input('start-date'))->startOfDay();
         $endDate = Carbon::parse($request->input('end-date'))->endOfDay();
 
+        $startDateOld = $request->input('start-date');
+        $endDateOld = $request->input('end-date');
+
         if ($reportType == "STOCK_REPORT") {
             $reportData = $this->generateStockReport($startDate, $endDate);
-            return view('admin.reports.stock-report', compact('reportData', 'startDate', 'endDate'));
+            return view('admin.reports.stock-report', compact('reportData', 'startDate', 'endDate', 'startDateOld', 'endDateOld'));
         } else if ($reportType == "SALES_REPORT") {
             $reportData = $this->generateSalesReport($startDate, $endDate);
-            return view('admin.reports.sales-report', compact('reportData', 'startDate', 'endDate'));
+            return view('admin.reports.sales-report', compact('reportData', 'startDate', 'endDate', 'startDateOld', 'endDateOld'));
         }
 
         return view('admin.reports.index');
@@ -74,5 +78,25 @@ class ReportsController extends Controller
             ->get();
 
         return $salesData;
+    }
+
+    public function print(Request $request)
+    {
+        $reportType = $request->get('report-type');
+        $startDate = Carbon::parse($request->input('start-date'))->startOfDay();
+        $endDate = Carbon::parse($request->input('end-date'))->endOfDay();
+
+        if ($reportType == "STOCK_REPORT") {
+
+            $reportData = $this->generateStockReport($startDate, $endDate);
+            $pdf = Pdf::loadView('admin.reports.stock-report-pdf', compact('reportData', 'startDate', 'endDate'));
+            return $pdf->download('laporan-stok.pdf');
+        } else if ($reportType == "SALES_REPORT") {
+            $reportData = $this->generateSalesReport($startDate, $endDate);
+            $pdf = Pdf::loadView('admin.reports.sales-report-pdf', compact('reportData', 'startDate', 'endDate'));
+            return $pdf->download('laporan-penjualan.pdf');
+        }
+
+        return view('admin.reports.index');
     }
 }

@@ -2,7 +2,12 @@
 
 @section('content')
     <div class="card">
-        <div class="card-header">Manajemen Produk</div>
+        <div class="card-header d-flex justify-content-between align-items-center">
+            Manajemen Produk
+            <a href="{{ route('admin.products.create') }}" class="btn btn-sm btn-primary">
+                Tambah
+            </a>
+        </div>
         <div class="card-body">
             {{ $dataTable->table() }}
         </div>

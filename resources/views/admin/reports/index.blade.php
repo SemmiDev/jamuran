@@ -2,7 +2,10 @@
 
 @section('content')
     <div class="card">
-        <div class="card-header">Laporan</div>
+        <div class="card-header">
+            Laporan
+
+        </div>
         <div class="card-body">
             <form method="POST" id="reportForm" action="{{ route('admin.reports.generate') }}">
                 @csrf

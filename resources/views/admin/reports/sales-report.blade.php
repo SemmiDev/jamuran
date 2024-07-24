@@ -2,7 +2,17 @@
 
 @section('content')
     <div class="card">
-        <div class="card-header">Laporan Penjualan</div>
+        <div class="card-header d-flex justify-content-between align-items-center">
+            Laporan Penjualan
+            <a href="{{ route('admin.reports.print', [
+                'report-type' => 'SALES_REPORT',
+                'start-date' => $startDateOld,
+                'end-date' => $endDateOld,
+            ]) }}"
+                class="btn btn-primary">
+                Cetak
+            </a>
+        </div>
         <div class="card-body">
             <p><strong>Tanggal Mulai:</strong> {{ $startDate->format('d M Y') }}</p>
             <p><strong>Tanggal Akhir:</strong> {{ $endDate->format('d M Y') }}</p>

@@ -10,21 +10,10 @@
       "menuHeader": "Daftar Menu"
     },
     {
+      "url": "/admin/products",
       "name": "Data Produk",
       "icon": "menu-icon tf-icons bx bx-store",
-      "slug": "admin.products",
-      "submenu": [
-        {
-          "url": "/admin/products",
-          "name": "Produk",
-          "slug": "admin.products"
-        },
-        {
-          "url": "/admin/products/create",
-          "name": "Tambah Produk",
-          "slug": "admin.products.create"
-        }
-      ]
+      "slug": "admin.products"
     },
     {
       "name": "Data Pemesanan",

@@ -121,6 +121,7 @@ Route::middleware(['auth', 'AdminRole'])->group(function () {
 
   Route::get('/admin/reports', [ReportsController::class, 'index'])->name('admin.reports');
   Route::post('/admin/reports/generate', [ReportsController::class, 'generate'])->name('admin.reports.generate');
+  Route::get('/admin/reports/print', [ReportsController::class, 'print'])->name('admin.reports.print');
 });
 
 

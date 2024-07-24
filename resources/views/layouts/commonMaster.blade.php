@@ -81,6 +81,8 @@
         }
     </style>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 </head>
 
 <body>
@@ -94,6 +96,29 @@
     @include('layouts/sections/scripts')
     @stack('scripts')
 
+    <script>
+        function showDeleteConfirmation(formId) {
+            Swal.fire({
+                title: 'Apakah anda yakin?',
+                text: 'Data yang anda hapus akan hilang!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#e60000',
+                confirmButtonText: 'Hapus!',
+                cancelButtonText: 'Batal', // Mengubah teks tombol cancel menjadi batal
+                showConfirmButton: true,
+                timer: 2000, // Atur timer ke 2000 milidetik (2 detik)
+                timerProgressBar: true, // Aktifkan progress bar untuk timer
+                allowOutsideClick: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Submit form untuk menghapus data
+                    document.getElementById('deleteForm' + formId).submit();
+                }
+
+            });
+        }
+    </script>
 </body>
 
 </html>
